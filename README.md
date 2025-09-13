@@ -1,4 +1,4 @@
-# WT-TimSweenny-du
+# TimSweenny
 
 Plným jménem Tymothey Dean Sweeney je americký videoherní vývojář, ale hlavně je znám jako zakladatel [Epic Games](https://en.wikipedia.org/wiki/Epic_Games) a tvůrce [Unreal Enginu](nuhttps://en.wikipedia.org/wiki/Unreal_Engine).
 
