@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>game</h1>
+    <p>Hádej číslo</p>
+    <input type="button" value="new game" id="newGameBtn" 
+    onclick="newGame()">
+    <input type="number" name="guess" id="guess" min="0">
+    <input type="button" value="Zkus" id="guessBtn">
+
+    <p>
+        Pocet pokusu <span id="attemps">0</span>
+    </p>
+
+    <script>
+        let secretNumber;
+        let attempts;
+
+        
+        function newGame() {
+            secretNumber = Math.floor(Math.random() * 20 + 1)
+            attempts = 0
+            console.log('---NOVA HRA---')
+            console.log('tajne cislo je', secretNumber)
+        }
+        function checkGuess() {
+            attempts++
+            const inputEl = document.getElementById('guess')
+
+            const attempsEl = document.getElementById('attemps')
+            const guess = Number(inputEl.value)
+
+            attempsEl.textContent = attempts
+        }
+
+        document.getElementById("guessBtn").addEventListener('click', checkGuess)
+        document.getElementById("guess").addEventListener('keydownk', function(e) {
+            if (e.key == 'enter') {
+                checkGuess()
+            }
+        })
+
+        newGame()
+    </script>
+</body>
+</html>
