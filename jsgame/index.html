@@ -8,6 +8,7 @@
 <body>
     <h1>game</h1>
     <p>Hádej číslo</p>
+
     <input type="button" value="new game" id="newGameBtn" 
     onclick="newGame()">
     <input type="number" name="guess" id="guess" min="0">
@@ -16,6 +17,7 @@
     <p>
         Pocet pokusu <span id="attemps">0</span>
     </p>
+    <p id="result"></p>
 
     <script>
         let secretNumber;
@@ -25,25 +27,41 @@
         function newGame() {
             secretNumber = Math.floor(Math.random() * 20 + 1)
             attempts = 0
+            document.getElementById('attemps').textContent = 0
+            document.getElementById('result').textContent = ""
             console.log('---NOVA HRA---')
             console.log('tajne cislo je', secretNumber)
         }
         function checkGuess() {
-            attempts++
-            const inputEl = document.getElementById('guess')
-
+            const inputEl = Number(document.getElementById('guess').value)
+            const resultEl = document.getElementById('result')
             const attempsEl = document.getElementById('attemps')
-            const guess = Number(inputEl.value)
+
+            attempts++
 
             attempsEl.textContent = attempts
+
+            if(!guess) {
+                resultEl.textContent = attempts
+                return
+            }
+
+            if (inputEl == secretNumber) {
+                resultEl.textContent = "Našeljsi mě!"
+                console.log('konec hry')
+            } else if (inputEl < secretNumber) {
+                resultEl.textContent = "Zkus větší číslo"
+            } else {
+                resultEl.textContent = "Zkus menší číslo"
+            }
         }
 
         document.getElementById("guessBtn").addEventListener('click', checkGuess)
-        document.getElementById("guess").addEventListener('keydownk', function(e) {
-            if (e.key == 'enter') {
-                checkGuess()
+        document.getElementById("guess").addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                checkGuess();
             }
-        })
+        });
 
         newGame()
     </script>
