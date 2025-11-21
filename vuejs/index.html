@@ -8,5 +8,29 @@
 <body>
     <h1>vuejs</h1>
     <a href="https://vuejs.org/guide/introduction">Dokumentace vue.js</a>
+    
+    <div id="app">
+        {{ message }}
+        <br>
+        {{'Random number: Math.ceil(Math.random)*6'}}
+        <br>
+        <button @click="count++">kliknuto: {{ count }}</button>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: "Hello World!"
+            }
+        }
+    })
+
+    app.mount('#app')
+
+</script>
 </body>
 </html>
