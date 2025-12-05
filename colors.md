@@ -1,7 +1,7 @@
-#Příklad - Google Logo
+# Příklad - Google Logo
 ![Google logo](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/960px-Google_%22G%22_logo.svg.png)
 
-##Psichologie
+## Psichologie
 Obvykle se loga pamatují více, čím více jsou jednoduchá a stylizovaná. Logo Google je krásným příkladem této myšlenky.
 Celé logo se skládá pouze z poze jednoho kruhu přetransformovaného do písmene G, které stojí pro Google. Samotné barvy hrajou taky důležitou roli. Zde jsou použity pouze primární barvy RGYB spektra, které reprezentují jednoduchost a snadno se zapamatují.
 - červená: Nejvíce výrazná v logu a dává pocit síly. zárovaň kopíruje zrcadlově zelenou, což může být metafora pro balanc mezi ohněm a přírodou samotnou
@@ -11,7 +11,7 @@ Celé logo se skládá pouze z poze jednoho kruhu přetransformovaného do písm
 
 
 
-##Teorie barev - loga společností
+## Teorie barev - loga společností
 
 Červená
 - jedna z nejpoužívanějších primárních barev poslední doby. Dříve simbolem moci a bohatství pro svou vzácnost a komplikovanou výrobu. Dnes především používaná při výstraze a nebezpečí.
