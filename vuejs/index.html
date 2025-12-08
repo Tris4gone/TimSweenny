@@ -1,74 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meziplanetární výlet</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container text-center pt-5" style="max-width: 600px; padding-bottom: 400px;">
-        <H1 class="text-center my-3">Registrace na meziplanetární vílet</H1>
-        <div class="container text-center">
-            <div id="app">
-                <div class="card p-4">
-                    <form>
-                        <div class="mb-3">
-                            <label for="name">jméno stronauta</label>
-                            <input class="form-control" type="text" id="name" name="name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="planet">Destinace</label>
-                            <select class="form-select" name="planet">
-                                <option value="Mars">Mars</option>
-                                <option value="Jupiter">Jupiter</option>
-                                <option value="Saturn">Saturn</option>
-                                <option value="Uran">Uran</option>
-                                <option value="Pluto">Pluto</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="days">Počet dní</label>
-                            <input class="form-control" type="number" id="days" name="days">
-                        </div>
-                        <div>
-                            <input class="form-check-input" type="checkbox" id="terms">
-                            <label class="form-check-label" for="terms">Souhlasím s podmínkami.</label>
-                        </div>
-                        <button class="btn btn-primary w-100" :disabled="isValid" type="small">Odeslat</button>
-                        <p class="text-muted">Tento formulář je irelevantní. Žádá informace nebude použita</p>
-                    </form>
+<div class="container text-center pt-5" style="max-width: 600px; padding-bottom: 400px;">
+    <h1 class="text-center my-3">Registrace na meziplanetární výlet</h1>
 
+    <div id="app">
+        <div class="card p-4 mb-3">
 
-                    
+            <form @submit.prevent="handleSubmit">
+                <div class="mb-3">
+                    <label for="name">Vaše jméno</label>
+                    <input class="form-control" type="text" id="name" v-model="trip.name">
+                    <small class="text-danger" v-if="errors.name">{{ errors.name }}</small>
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label for="planet">Vaše destinace</label>
+                    <select class="form-select" v-model="trip.destination">
+                        <option value="">-- Vyberte planetu --</option>
+                        <option value="Mars">Mars - nejlepší pro chycení bronzu</option>
+                        <option value="Jupiter">Jupiter - jen pro odvážné</option>
+                        <option value="Saturn">Saturn - v ceně s orbitou na prstenci</option>
+                        <option value="Uran">Uran - nejlepší krioterapie</option>
+                        <option value="Pluto">Pluto - výlet o samotné cestě, nikoliv destinaci</option>
+                    </select>
+                    <small class="text-danger" v-if="errors.destination">{{ errors.destination }}</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="days">Počet dní</label>
+                    <input class="form-control" type="number" id="days" v-model.number="trip.days">
+                    <small class="text-danger" v-if="errors.days">{{ errors.days }}</small>
+                </div>
+
+                <div class="mb-3">
+                    <input class="form-check-input" type="checkbox" id="terms" v-model="trip.accepted">
+                    <label class="form-check-label" for="terms">Souhlasím s případným prodloužením výletu.</label>
+                    <br>
+                    <small class="text-danger" v-if="errors.accepted">{{ errors.accepted }}</small>
+                </div>
+
+                <button class="btn btn-primary w-100" :disabled="!isValidForm" type="submit">Odeslat</button>
+
+                <p class="text-muted mt-3">
+                    Tento formulář je jen ukázka. Data se nikam neodesílají.
+                </p>
+            </form>
+
         </div>
+
+        <div class="card p-3" v-if="showTicket">
+            <h2>Palubní lístek</h2>
+            <p>
+                Jméno: <strong>{{ trip.name }}</strong><br>
+                Destinace: <strong>{{ trip.destination }}</strong><br>
+                Počet dní: <strong>{{ trip.days }}</strong><br>
+                Odhadovaná cena: <strong>{{ price }} kreditů</strong>
+            </p>
+            <p class="text-muted">Změny ve formuláři se projeví okamžitě.</p>
+        </div>
+
     </div>
+</div>
 
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
-    <a href="https://vuejs.org/guide/introduction">Dokumentace vue.js</a>
+<script>
+const app = Vue.createApp({
+    data() {
+        return {
+            trip: {
+                name: "",
+                destination: "",
+                days: 3,
+                accepted: false
+            },
+            errors: {},
+            showTicket: false
+        };
+    },
+    computed: {
+        isValidForm() {
+            return (
+                this.trip.name &&
+                this.trip.destination &&
+                this.trip.days >= 1 &&
+                this.trip.days <= 60 &&
+                this.trip.accepted
+            );
+        },
+        price() {
+            const prices = {
+                Mars: 2000,
+                Jupiter: 4500,
+                Saturn: 7000,
+                Uran: 10000,
+                Pluto: 12500
+            };
+            const base = prices[this.trip.destination] || 1000;
+            return base * this.trip.days;
+        }
+    },
+    methods: {
+        validate() {
+            this.errors = {};
 
+            if (!this.trip.name) this.errors.name = "Jméno je povinné.";
+            if (!this.trip.destination) this.errors.destination = "Vyberte destinaci.";
+            if (!this.trip.days || this.trip.days < 1) this.errors.days = "Minimálně 1 den.";
+            if (this.trip.days > 60) this.errors.days = "Maximálně 60 dní.";
+            if (!this.trip.accepted) this.errors.accepted = "Musíte přijmout podmínky.";
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
-    <script>
-        const app = Vue.createApp({
-            data() {
-                return {
-                    message: "Hello World!",
-                    count: 0
-
-                }
-            },           
-            computed: {
-                isValid() {
-                    return true
-                }
-            }    
-        })
-    </script>
+            return Object.keys(this.errors).length === 0;
+        },
+        handleSubmit() {
+            if (this.validate()) {
+                this.showTicket = true;
+            } else {
+                this.showTicket = false;
+            }
+        }
+    }
+});
+app.mount("#app");
+</script>
 </body>
 </html>
